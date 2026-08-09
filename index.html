@@ -107,6 +107,20 @@
         });
     }
 </script>
+<!-- WhatsApp Butonu -->
+<div style="margin: 20px 0; text-align: center;">
+    <button onclick="whatsappKayitLinkiGonder()" style="background-color: #25D366; color: white; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px;">
+        📲 Veliye Kayıt Formu Linki Gönder
+    </button>
+</div>
+
+<script>
+function whatsappKayitLinkiGonder() {
+    const formUrl = "https://veli-kayit.github.io/veli-kayit/"; 
+    const mesaj = `Sayın Velimiz, TAC Dil Kursu kayıt işlemlerinizin tamamlanabilmesi için lütfen aşağıdaki bağlantıya tıklayarak formu doldurunuz:\n\n${formUrl}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(mesaj)}`, '_blank');
+}
+</script>
 
 </body>
 </html>
