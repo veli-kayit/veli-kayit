@@ -3,167 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAC DİL KURSU - ÖĞRENCİ KAYIT FORMU</title>
+    <title>TAC DİL KURSU - ÖĞRENCİ KAYIT</title>
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; }
-        .container { max-width: 500px; margin: 0 auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h2 { text-align: center; color: #1a365d; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
-        .section-title { font-weight: bold; color: #2b6cb0; margin-top: 15px; margin-bottom: 10px; display: block; }
-        label { font-size: 14px; color: #4a5568; display: block; margin-top: 10px; }
-        input, textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #cbd5e0; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
-        button { width: 100%; background-color: #2b6cb0; color: white; border: none; padding: 12px; margin-top: 20px; border-radius: 6px; font-weight: bold; font-size: 16px; cursor: pointer; }
-        button:hover { background-color: #2c5282; }
-        .success-msg { display: none; background: #c6f6d5; color: #22543d; padding: 15px; border-radius: 6px; text-align: center; margin-top: 15px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f9; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 600px; background: white; margin: 0 auto; padding: 25px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #1a365d; margin-bottom: 20px; font-size: 22px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 14px; color: #4a5568; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
+        input:focus, select:focus, textarea:focus { border-color: #3182ce; outline: none; }
+        button.btn-submit { width: 100%; background-color: #3182ce; color: white; border: none; padding: 12px; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: background 0.2s; }
+        button.btn-submit:hover { background-color: #2b6cb0; }
+        .success-message { display: none; background-color: #c6f6d5; color: #22543d; padding: 15px; border-radius: 6px; text-align: center; font-weight: bold; margin-top: 15px; }
+        .section-title { font-size: 16px; font-weight: bold; color: #2b6cb0; margin-top: 20px; margin-bottom: 10px; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>TAC DİL KURSU<br><small style="font-size:14px; color:#718096;">Öğrenci Ön Kayıt Formu</small></h2>
+    <h2>🎓 TAC DİL KURSU KAYIT FORMUNDA</h2>
     
     <form id="studentForm">
-        <span class="section-title">🎓 Öğrenci Bilgileri</span>
-        <label>Öğrenci Adı Soyadı *</label>
-        <input type="text" id="ogrenciAd" required>
+        <div class="section-title">👨‍🎓 Öğrenci Bilgileri</div>
+        
+        <div class="form-group">
+            <label for="ogrenciAd">Öğrenci Adı Soyadı *</label>
+            <input type="text" id="ogrenciAd" required placeholder="Öğrencinin adını ve soyadını giriniz">
+        </div>
 
-        <label>Öğrenci T.C. Kimlik No *</label>
-        <input type="text" id="ogrenciTc" maxlength="11" required>
+        <div class="form-group">
+            <label for="ogrenciTc">Öğrenci T.C. Kimlik No *</label>
+            <input type="text" id="ogrenciTc" maxlength="11" required placeholder="11 haneli T.C. Kimlik No">
+        </div>
 
-        <label>Öğrenci Doğum Tarihi *</label>
-        <input type="date" id="ogrenciDogum" required>
+        <div class="form-group">
+            <label for="ogrenciDogum">Öğrenci Doğum Tarihi *</label>
+            <input type="date" id="ogrenciDogum" required>
+        </div>
 
-        <label>Öğrenci Telefon No (Varsa)</label>
-        <input type="tel" id="ogrenciTel" placeholder="05XX XXX XX XX">
+        <div class="form-group">
+            <label for="ogrenciTel">Öğrenci Telefon No</label>
+            <input type="tel" id="ogrenciTel" placeholder="05XXXXXXXXX">
+        </div>
 
-        <span class="section-title" style="margin-top:25px;">👨‍👩‍👧 Veli Bilgileri</span>
-        <label>Veli Adı Soyadı *</label>
-        <input type="text" id="veliAd" required>
+        <div class="form-group">
+            <label for="sinif">Öğrenci Sınıfı / Grubu *</label>
+            <select id="sinif" required>
+                <option value="">-- Lütfen Sınıf Seçiniz --</option>
+                <optgroup label="İlkokul / Ortaokul / Lise">
+                    <option value="1. Sınıf">1. Sınıf</option>
+                    <option value="2. Sınıf">2. Sınıf</option>
+                    <option value="3. Sınıf">3. Sınıf</option>
+                    <option value="4. Sınıf">4. Sınıf</option>
+                    <option value="5. Sınıf">5. Sınıf</option>
+                    <option value="6. Sınıf">6. Sınıf</option>
+                    <option value="7. Sınıf">7. Sınıf</option>
+                    <option value="8. Sınıf">8. Sınıf</option>
+                    <option value="9. Sınıf">9. Sınıf</option>
+                    <option value="10. Sınıf">10. Sınıf</option>
+                    <option value="11. Sınıf">11. Sınıf</option>
+                    <option value="12. Sınıf / Mezun">12. Sınıf / Mezun</option>
+                </optgroup>
+                <optgroup label="Dil Kursları">
+                    <option value="Genel İngilizce">Genel İngilizce</option>
+                    <option value="Almanca">Almanca</option>
+                </optgroup>
+            </select>
+        </div>
 
-        <label>Veli T.C. Kimlik No *</label>
-        <input type="text" id="veliTc" maxlength="11" required>
+        <div class="section-title">👨‍👩‍👧‍👦 Veli Bilgileri</div>
 
-        <label>Veli Telefon No *</label>
-        <input type="tel" id="veliTel" placeholder="05XX XXX XX XX" required>
+        <div class="form-group">
+            <label for="veliAd">Veli Adı Soyadı *</label>
+            <input type="text" id="veliAd" required placeholder="Velinin adını ve soyadını giriniz">
+        </div>
 
-        <label>Ev Adresi *</label>
-        <textarea id="evAdresi" rows="3" required></textarea>
-<!-- Öğrenci Sınıf Seçimi -->
-<div style="margin-bottom: 15px;">
-    <label for="sinif" style="display: block; font-weight: bold; margin-bottom: 5px;">Öğrenci Sınıfı / Grubu *</label>
-    <select id="sinif" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
-        <option value="">-- Lütfen Sınıf Seçiniz --</option>
-        <optgroup label="İlkokul / Ortaokul / Lise">
-            <option value="1. Sınıf">1. Sınıf</option>
-            <option value="2. Sınıf">2. Sınıf</option>
-            <option value="3. Sınıf">3. Sınıf</option>
-            <option value="4. Sınıf">4. Sınıf</option>
-            <option value="5. Sınıf">5. Sınıf</option>
-            <option value="6. Sınıf">6. Sınıf</option>
-            <option value="7. Sınıf">7. Sınıf</option>
-            <option value="8. Sınıf">8. Sınıf</option>
-            <option value="9. Sınıf">9. Sınıf</option>
-            <option value="10. Sınıf">10. Sınıf</option>
-            <option value="11. Sınıf">11. Sınıf</option>
-            <option value="12. Sınıf / Mezun">12. Sınıf / Mezun</option>
-        </optgroup>
-        <optgroup label="Dil Kursları">
-            <option value="Genel İngilizce">Genel İngilizce</option>
-            <option value="Almanca">Almanca</option>
-        </optgroup>
-    </select>
-</div>
-        <button type="button" onclick="formuGonder()">Kaydı Tamamla</button>
+        <div class="form-group">
+            <label for="veliTc">Veli T.C. Kimlik No *</label>
+            <input type="text" id="veliTc" maxlength="11" required placeholder="11 haneli T.C. Kimlik No">
+        </div>
+
+        <div class="form-group">
+            <label for="veliTel">Veli Telefon No *</label>
+            <input type="tel" id="veliTel" required placeholder="05XXXXXXXXX">
+        </div>
+
+        <div class="form-group">
+            <label for="evAdresi">Ev Adresi *</label>
+            <textarea id="evAdresi" rows="3" required placeholder="Açık adresinizi giriniz"></textarea>
+        </div>
+
+        <button type="button" class="btn-submit" onclick="formuGonder()">Kaydı Tamamla</button>
     </form>
 
-    <div id="basariMesaji" class="success-msg">
-        ✅ Bilgileriniz başarıyla alındı! Kurs yönetimimiz sizinle iletişime geçecektir.
+    <div id="basariMesaji" class="success-message">
+        ✅ Kaydınız başarıyla alınmıştır. En kısa sürede sizinle iletişime geçilecektir.
+    </div>
+
+    <!-- WhatsApp Butonu -->
+    <div style="margin-top: 25px; text-align: center;">
+        <button onclick="whatsappKayitLinkiGonder()" style="background-color: #25D366; color: white; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 15px; width: 100%;">
+            📲 Veliye Kayıt Formu Linki Gönder
+        </button>
     </div>
 </div>
 
 <script>
+    // Firebase Bağlantı Yapılandırması
     const firebaseConfig = {
-        apiKey: "FIREBASE_API_KEY",
-        authDomain: "PROJECT_ID.firebaseapp.com",
-        databaseURL: "https://PROJECT_ID-default-rtdb.firebaseio.com",
-        projectId: "PROJECT_ID",
-        storageBucket: "PROJECT_ID.appspot.com",
-        messagingSenderId: "SENDER_ID",
-        appId: "APP_ID"
+        databaseURL: "https://tac-dil-kursu-default-rtdb.firebaseio.com" // Projenize ait Firebase URL'si
     };
-
-    firebase.initializeApp(firebaseConfig);
+    
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
     const database = firebase.database();
 
     function formuGonder() {
         const ogrenciAd = document.getElementById('ogrenciAd').value.trim();
         const ogrenciTc = document.getElementById('ogrenciTc').value.trim();
         const ogrenciDogum = document.getElementById('ogrenciDogum').value;
-const ogrenciTel = document.getElementById('ogrenciTel').value.trim();
-const veliAd = document.getElementById('veliAd').value.trim();
-const veliTc = document.getElementById('veliTc').value.trim();
-const veliTel = document.getElementById('veliTel').value.trim();
-const evAdresi = document.getElementById('evAdresi').value.trim();
-const sinif = document.getElementById('sinif').value;
+        const ogrenciTel = document.getElementById('ogrenciTel').value.trim();
+        const sinif = document.getElementById('sinif').value;
+        const veliAd = document.getElementById('veliAd').value.trim();
+        const veliTc = document.getElementById('veliTc').value.trim();
+        const veliTel = document.getElementById('veliTel').value.trim();
+        const evAdresi = document.getElementById('evAdresi').value.trim();
 
-if (!ogrenciAd || !ogrenciTc || !veliAd || !veliTel) {
-    alert("Lütfen zorunlu alanları doldurunuz!");
-    return;
-}
+        if (!ogrenciAd || !ogrenciTc || !veliAd || !veliTel || !sinif || !evAdresi) {
+            alert("Lütfen zorunlu tüm alanları (*) ve Sınıf seçimini doldurunuz!");
+            return;
+        }
 
-const yeniOgrenciRef = database.ref('ogrenciler').push();
-yeniOgrenciRef.set({
-    ogrenciAd: ogrenciAd,
-    ogrenciTc: ogrenciTc,
-    ogrenciDogum: ogrenciDogum,
-    ogrenciTel: ogrenciTel,
-    veliAd: veliAd,
-    veliTc: veliTc,
-    veliTel: veliTel,
-    evAdresi: evAdresi,
-    sinif: sinif,
-    kayitTarihi: new Date().toISOString(),
-    durum: "Veli Kaydı (Onay Bekliyor)"
-}).then(() => {
+        const yeniOgrenciRef = database.ref('ogrenciler').push();
+        yeniOgrenciRef.set({
+            ogrenciAd: ogrenciAd,
+            ogrenciTc: ogrenciTc,
+            ogrenciDogum: ogrenciDogum,
+            ogrenciTel: ogrenciTel,
+            sinif: sinif,
+            veliAd: veliAd,
+            veliTc: veliTc,
+            veliTel: veliTel,
+            evAdresi: evAdresi,
+            kayitTarihi: new Date().toISOString(),
             durum: "Veli Kaydı (Onay Bekliyor)"
         }).then(() => {
             document.getElementById('studentForm').style.display = 'none';
-            document.getElementById('studentForm').style.display = 'none';
             document.getElementById('basariMesaji').style.display = 'block';
         }).catch((error) => {
-            alert("Hata oluştu: " + error.message);
+            alert("Kayıt sırasında bir hata oluştu: " + error.message);
         });
     }
-</script>
-<!-- WhatsApp Butonu -->
-<div style="margin: 20px 0; text-align: center;">
-    <button onclick="whatsappKayitLinkiGonder()" style="background-color: #25D366; color: white; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px;">
-        📲 Veliye Kayıt Formu Linki Gönder
-    </button>
-</div>
 
-<script>
-function whatsappKayitLinkiGonder() {
-    // Sitenin doğru adresi:
-    const formUrl = "https://veli-kayit.github.io/"; 
-    const mesaj = `Sayın Velimiz, TAC Dil Kursu kayıt işlemlerinizin tamamlanabilmesi için lütfen aşağıdaki bağlantıya tıklayarak formu doldurunuz:\n\n${formUrl}`;
-    window.open(`https://wa.me/?text=${encodeURIComponent(mesaj)}`, '_blank');
-}
+    function whatsappKayitLinkiGonder() {
+        const formUrl = "https://veli-kayit.github.io/veli-kayit/";
+        const mesaj = `Sayın Velimiz, TAC Dil Kursu kayıt işlemlerinizin tamamlanabilmesi için lütfen aşağıdaki bağlantıya tıklayarak formu doldurunuz:\n\n${formUrl}`;
+        window.open(`https://wa.me/?text=${encodeURIComponent(mesaj)}`, '_blank');
+    }
 </script>
-<!-- WhatsApp Butonu -->
-<div style="margin: 20px 0; text-align: center;">
-    <button onclick="whatsappKayitLinkiGonder()" style="background-color: #25D366; color: white; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px;">
-        📲 Veliye Kayıt Formu Linki Gönder
-    </button>
-</div>
 
-<script>
-function whatsappKayitLinkiGonder() {
-    const formUrl = "https://veli-kayit.github.io/veli-kayit/"; 
-    const mesaj = `Sayın Velimiz, TAC Dil Kursu kayıt işlemlerinizin tamamlanabilmesi için lütfen aşağıdaki bağlantıya tıklayarak formu doldurunuz:\n\n${formUrl}`;
-    window.open(`https://wa.me/?text=${encodeURIComponent(mesaj)}`, '_blank');
-}
-</script>
 </body>
 </html>
