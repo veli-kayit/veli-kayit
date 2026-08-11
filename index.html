@@ -49,7 +49,31 @@
 
         <label>Ev Adresi *</label>
         <textarea id="evAdresi" rows="3" required></textarea>
-
+<!-- Öğrenci Sınıf Seçimi -->
+<div style="margin-bottom: 15px;">
+    <label for="sinif" style="display: block; font-weight: bold; margin-bottom: 5px;">Öğrenci Sınıfı / Grubu *</label>
+    <select id="sinif" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
+        <option value="">-- Lütfen Sınıf Seçiniz --</option>
+        <optgroup label="İlkokul / Ortaokul / Lise">
+            <option value="1. Sınıf">1. Sınıf</option>
+            <option value="2. Sınıf">2. Sınıf</option>
+            <option value="3. Sınıf">3. Sınıf</option>
+            <option value="4. Sınıf">4. Sınıf</option>
+            <option value="5. Sınıf">5. Sınıf</option>
+            <option value="6. Sınıf">6. Sınıf</option>
+            <option value="7. Sınıf">7. Sınıf</option>
+            <option value="8. Sınıf">8. Sınıf</option>
+            <option value="9. Sınıf">9. Sınıf</option>
+            <option value="10. Sınıf">10. Sınıf</option>
+            <option value="11. Sınıf">11. Sınıf</option>
+            <option value="12. Sınıf / Mezun">12. Sınıf / Mezun</option>
+        </optgroup>
+        <optgroup label="Dil Kursları">
+            <option value="Genel İngilizce">Genel İngilizce</option>
+            <option value="Almanca">Almanca</option>
+        </optgroup>
+    </select>
+</div>
         <button type="button" onclick="formuGonder()">Kaydı Tamamla</button>
     </form>
 
@@ -91,11 +115,13 @@
         yeniOgrenciRef.set({
             ogrenciAd: ogrenciAd,
             ogrenciTc: ogrenciTc,
+            const sinif = document.getElementById('sinif').value;
             ogrenciDogum: ogrenciDogum,
             ogrenciTel: ogrenciTel,
             veliAd: veliAd,
             veliTc: veliTc,
             veliTel: veliTel,
+            sinif: sinif,
             evAdresi: evAdresi,
             kayitTarihi: new Date().toISOString(),
             durum: "Veli Kaydı (Onay Bekliyor)"
