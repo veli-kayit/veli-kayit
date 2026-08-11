@@ -100,32 +100,35 @@
         const ogrenciAd = document.getElementById('ogrenciAd').value.trim();
         const ogrenciTc = document.getElementById('ogrenciTc').value.trim();
         const ogrenciDogum = document.getElementById('ogrenciDogum').value;
-        const ogrenciTel = document.getElementById('ogrenciTel').value.trim();
-        const veliAd = document.getElementById('veliAd').value.trim();
-        const veliTc = document.getElementById('veliTc').value.trim();
-        const veliTel = document.getElementById('veliTel').value.trim();
-        const evAdresi = document.getElementById('evAdresi').value.trim();
+const ogrenciTel = document.getElementById('ogrenciTel').value.trim();
+const veliAd = document.getElementById('veliAd').value.trim();
+const veliTc = document.getElementById('veliTc').value.trim();
+const veliTel = document.getElementById('veliTel').value.trim();
+const evAdresi = document.getElementById('evAdresi').value.trim();
+const sinif = document.getElementById('sinif').value;
 
-        if(!ogrenciAd || !ogrenciTc || !veliAd || !veliTel) {
-            alert("Lütfen zorunlu alanları doldurunuz!");
-            return;
-        }
+if (!ogrenciAd || !ogrenciTc || !veliAd || !veliTel) {
+    alert("Lütfen zorunlu alanları doldurunuz!");
+    return;
+}
 
-        const yeniOgrenciRef = database.ref('ogrenciler').push();
-        yeniOgrenciRef.set({
-            ogrenciAd: ogrenciAd,
-            ogrenciTc: ogrenciTc,
-            const sinif = document.getElementById('sinif').value;
-            ogrenciDogum: ogrenciDogum,
-            ogrenciTel: ogrenciTel,
-            veliAd: veliAd,
-            veliTc: veliTc,
-            veliTel: veliTel,
-            sinif: sinif,
-            evAdresi: evAdresi,
-            kayitTarihi: new Date().toISOString(),
+const yeniOgrenciRef = database.ref('ogrenciler').push();
+yeniOgrenciRef.set({
+    ogrenciAd: ogrenciAd,
+    ogrenciTc: ogrenciTc,
+    ogrenciDogum: ogrenciDogum,
+    ogrenciTel: ogrenciTel,
+    veliAd: veliAd,
+    veliTc: veliTc,
+    veliTel: veliTel,
+    evAdresi: evAdresi,
+    sinif: sinif,
+    kayitTarihi: new Date().toISOString(),
+    durum: "Veli Kaydı (Onay Bekliyor)"
+}).then(() => {
             durum: "Veli Kaydı (Onay Bekliyor)"
         }).then(() => {
+            document.getElementById('studentForm').style.display = 'none';
             document.getElementById('studentForm').style.display = 'none';
             document.getElementById('basariMesaji').style.display = 'block';
         }).catch((error) => {
