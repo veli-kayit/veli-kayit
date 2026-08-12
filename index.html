@@ -114,7 +114,7 @@
 <script>
     // Firebase Bağlantı Yapılandırması
     const firebaseConfig = {
-        databaseURL: "https://tac-dil-kursu-default-rtdb.firebaseio.com" // Projenize ait Firebase URL'si
+        databaseURL: "https://tac-dil-kursu-default-rtdb.firebaseio.com"
     };
     
     if (!firebase.apps.length) {
@@ -150,7 +150,7 @@
             veliTel: veliTel,
             evAdresi: evAdresi,
             kayitTarihi: new Date().toISOString(),
-            durum: "Veli Kaydı (Onay Bekliyor)"
+            durum: "ONAY_BEKLIYOR"
         }).then(() => {
             document.getElementById('studentForm').style.display = 'none';
             document.getElementById('basariMesaji').style.display = 'block';
