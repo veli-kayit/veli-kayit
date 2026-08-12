@@ -111,60 +111,67 @@
     </div>
 </div>
 
+<!-- FIREBASE CANLI VERİTABANI KÜTÜPHANELERİ -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
 <script>
-    // Firebase Bağlantı Yapılandırması
-    const firebaseConfig = {
-        databaseURL: "https://tac-dil-kursu-default-rtdb.firebaseio.com"
-    };
+  // Firebase Yapılandırması (Ana programınızla tam uyumlu hale getirildi)
+  const firebaseConfig = {
+    apiKey: "AIzaSyAhV9Qy4ltYmkfMnVWqv_73zYMqTqlbgCg",
+    authDomain: "tac-dil-kursu.firebaseapp.com",
+    projectId: "tac-dil-kursu",
+    storageBucket: "tac-dil-kursu.firebasestorage.app",
+    messagingSenderId: "19768963872",
+    appId: "1:19768963872:web:a869617de86d1603ef5d45",
+    measurementId: "G-H34RLJSKCJ"
+  };
+
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+  const db = firebase.firestore();
+
+  async function formuGonder(event) {
+    if (event) event.preventDefault();
+
+    // Form Elemanlarından Değerleri Alma
+    const oAd = document.getElementById('ogrenciAd') ? document.getElementById('ogrenciAd').value.trim() : '';
+    const oTc = document.getElementById('ogrenciTc') ? document.getElementById('ogrenciTc').value.trim() : '';
+    const oDogum = document.getElementById('ogrenciDogum') ? document.getElementById('ogrenciDogum').value : '';
+    const oTel = document.getElementById('ogrenciTel') ? document.getElementById('ogrenciTel').value.trim() : '';
     
-    if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
-    }
-    const database = firebase.database();
+    const sinifEl = document.getElementById('sinif') || document.getElementById('sinifSelect');
+    const sinif = sinifEl ? sinifEl.value : '';
+    
+    const vAd = document.getElementById('veliAd') ? document.getElementById('veliAd').value.trim() : '';
+    const vTc = document.getElementById('veliTc') ? document.getElementById('veliTc').value.trim() : '';
+    const vTel = document.getElementById('veliTel') ? document.getElementById('veliTel').value.trim() : '';
+    
+    const adresEl = document.getElementById('evAdresi') || document.getElementById('veliAdres');
+    const vAdres = adresEl ? adresEl.value.trim() : '';
 
-    function formuGonder() {
-        const ogrenciAd = document.getElementById('ogrenciAd').value.trim();
-        const ogrenciTc = document.getElementById('ogrenciTc').value.trim();
-        const ogrenciDogum = document.getElementById('ogrenciDogum').value;
-        const ogrenciTel = document.getElementById('ogrenciTel').value.trim();
-        const sinif = document.getElementById('sinif').value;
-        const veliAd = document.getElementById('veliAd').value.trim();
-        const veliTc = document.getElementById('veliTc').value.trim();
-        const veliTel = document.getElementById('veliTel').value.trim();
-        const evAdresi = document.getElementById('evAdresi').value.trim();
-
-        if (!ogrenciAd || !ogrenciTc || !veliAd || !veliTel || !sinif || !evAdresi) {
-            alert("Lütfen zorunlu tüm alanları (*) ve Sınıf seçimini doldurunuz!");
-            return;
-        }
-
-        const yeniOgrenciRef = database.ref('ogrenciler').push();
-        yeniOgrenciRef.set({
-            ogrenciAd: ogrenciAd,
-            ogrenciTc: ogrenciTc,
-            ogrenciDogum: ogrenciDogum,
-            ogrenciTel: ogrenciTel,
-            sinif: sinif,
-            veliAd: veliAd,
-            veliTc: veliTc,
-            veliTel: veliTel,
-            evAdresi: evAdresi,
-            kayitTarihi: new Date().toISOString(),
-            durum: "ONAY_BEKLIYOR"
-        }).then(() => {
-            document.getElementById('studentForm').style.display = 'none';
-            document.getElementById('basariMesaji').style.display = 'block';
-        }).catch((error) => {
-            alert("Kayıt sırasında bir hata oluştu: " + error.message);
-        });
+    if (!oAd || !oTc || !vAd || !vTel || !sinif || !vAdres) {
+      alert("Lütfen tüm zorunlu (*) alanları ve adres bilgisini doldurunuz!");
+      return;
     }
 
-    function whatsappKayitLinkiGonder() {
-        const formUrl = "https://veli-kayit.github.io/veli-kayit/";
-        const mesaj = `Sayın Velimiz, TAC Dil Kursu kayıt işlemlerinizin tamamlanabilmesi için lütfen aşağıdaki bağlantıya tıklayarak formu doldurunuz:\n\n${formUrl}`;
-        window.open(`https://wa.me/?text=${encodeURIComponent(mesaj)}`, '_blank');
+    const yeniBasvuru = {
+      oAd, oTc, oDogum, oTel, sinif, vAd, vTc, vTel, vAdres,
+      durum: "ONAY_BEKLIYOR",
+      kayitTarihi: new Date().toISOString()
+    };
+
+    try {
+      await db.collection("ogrenciler").add(yeniBasvuru);
+      alert("Kayıt başvurunuz başarıyla alındı! Kurum onayından sonra kaydınız tamamlanacaktır.");
+      
+      const form = document.querySelector('form');
+      if (form) form.reset();
+    } catch (error) {
+      alert("Hata oluştu: " + error.message);
     }
+  }
 </script>
-
 </body>
 </html>
