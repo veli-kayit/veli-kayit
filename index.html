@@ -1,190 +1,131 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAC DİL KURSU - ÖĞRENCİ KAYIT</title>
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f9; margin: 0; padding: 20px; color: #333; }
-        .container { max-width: 600px; background: white; margin: 0 auto; padding: 25px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h2 { text-align: center; color: #1a365d; margin-bottom: 20px; font-size: 22px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 14px; color: #4a5568; }
-        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
-        input:focus, select:focus, textarea:focus { border-color: #3182ce; outline: none; }
-        button.btn-submit { width: 100%; background-color: #3182ce; color: white; border: none; padding: 12px; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: background 0.2s; }
-        button.btn-submit:hover { background-color: #2b6cb0; }
-        .success-message { display: none; background-color: #c6f6d5; color: #22543d; padding: 15px; border-radius: 6px; text-align: center; font-weight: bold; margin-top: 15px; }
-        .section-title { font-size: 16px; font-weight: bold; color: #2b6cb0; margin-top: 20px; margin-bottom: 10px; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TAC Dil Kursu - Öğrenci Ön Kayıt Formu</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f7f6;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 500px;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: #555;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+  </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>🎓 TAC DİL KURSU KAYIT FORMUNDA</h2>
-    
-    <form id="studentForm">
-        <div class="section-title">👨‍🎓 Öğrenci Bilgileri</div>
-        
-        <div class="form-group">
-            <label for="ogrenciAd">Öğrenci Adı Soyadı *</label>
-            <input type="text" id="ogrenciAd" required placeholder="Öğrencinin adını ve soyadını giriniz">
-        </div>
-
-        <div class="form-group">
-            <label for="ogrenciTc">Öğrenci T.C. Kimlik No *</label>
-            <input type="text" id="ogrenciTc" maxlength="11" required placeholder="11 haneli T.C. Kimlik No">
-        </div>
-
-        <div class="form-group">
-            <label for="ogrenciDogum">Öğrenci Doğum Tarihi *</label>
-            <input type="date" id="ogrenciDogum" required>
-        </div>
-
-        <div class="form-group">
-            <label for="ogrenciTel">Öğrenci Telefon No</label>
-            <input type="tel" id="ogrenciTel" placeholder="05XXXXXXXXX">
-        </div>
-
-        <div class="form-group">
-            <label for="sinif">Öğrenci Sınıfı / Grubu *</label>
-            <select id="sinif" required>
-                <option value="">-- Lütfen Sınıf Seçiniz --</option>
-                <optgroup label="İlkokul / Ortaokul / Lise">
-                    <option value="1. Sınıf">1. Sınıf</option>
-                    <option value="2. Sınıf">2. Sınıf</option>
-                    <option value="3. Sınıf">3. Sınıf</option>
-                    <option value="4. Sınıf">4. Sınıf</option>
-                    <option value="5. Sınıf">5. Sınıf</option>
-                    <option value="6. Sınıf">6. Sınıf</option>
-                    <option value="7. Sınıf">7. Sınıf</option>
-                    <option value="8. Sınıf">8. Sınıf</option>
-                    <option value="9. Sınıf">9. Sınıf</option>
-                    <option value="10. Sınıf">10. Sınıf</option>
-                    <option value="11. Sınıf">11. Sınıf</option>
-                    <option value="12. Sınıf / Mezun">12. Sınıf / Mezun</option>
-                </optgroup>
-                <optgroup label="Dil Kursları">
-                    <option value="Genel İngilizce">Genel İngilizce</option>
-                    <option value="Almanca">Almanca</option>
-                </optgroup>
-            </select>
-        </div>
-
-        <div class="section-title">👨‍👩‍👧‍👦 Veli Bilgileri</div>
-
-        <div class="form-group">
-            <label for="veliAd">Veli Adı Soyadı *</label>
-            <input type="text" id="veliAd" required placeholder="Velinin adını ve soyadını giriniz">
-        </div>
-
-        <div class="form-group">
-            <label for="veliTc">Veli T.C. Kimlik No *</label>
-            <input type="text" id="veliTc" maxlength="11" required placeholder="11 haneli T.C. Kimlik No">
-        </div>
-
-        <div class="form-group">
-            <label for="veliTel">Veli Telefon No *</label>
-            <input type="tel" id="veliTel" required placeholder="05XXXXXXXXX">
-        </div>
-
-        <div class="form-group">
-            <label for="evAdresi">Ev Adresi *</label>
-            <textarea id="evAdresi" rows="3" required placeholder="Açık adresinizi giriniz"></textarea>
-        </div>
-
-        <button type="button" class="btn-submit" onclick="formuGonder()">Kaydı Tamamla</button>
-    </form>
-
-    <div id="basariMesaji" class="success-message">
-        ✅ Kaydınız başarıyla alınmıştır. En kısa sürede sizinle iletişime geçilecektir.
+  <h2>Öğrenci Ön Kayıt Formu</h2>
+  <form id="basvuruFormu" onsubmit="formuGonder(event)">
+    <div class="form-group">
+      <label for="ogrenciAd">Öğrenci Adı Soyadı *</label>
+      <input type="text" id="ogrenciAd" required placeholder="Örn: Ahmet Yılmaz">
     </div>
 
-    <!-- WhatsApp Butonu -->
-    <div style="margin-top: 25px; text-align: center;">
-        <button onclick="whatsappKayitLinkiGonder()" style="background-color: #25D366; color: white; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 15px; width: 100%;">
-            📲 Veliye Kayıt Formu Linki Gönder
-        </button>
+    <div class="form-group">
+      <label for="ogrenciTc">Öğrenci T.C. Kimlik No *</label>
+      <input type="text" id="ogrenciTc" maxlength="11" required placeholder="11 Haneli T.C. No">
     </div>
+
+    <div class="form-group">
+      <label for="ogrenciDogum">Doğum Tarihi</label>
+      <input type="date" id="ogrenciDogum">
+    </div>
+
+    <div class="form-group">
+      <label for="ogrenciSinif">Sınıfı / Seviyesi</label>
+      <input type="text" id="ogrenciSinif" placeholder="Örn: 5. Sınıf veya İngilizce B1">
+    </div>
+
+    <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+
+    <div class="form-group">
+      <label for="veliAd">Veli Adı Soyadı *</label>
+      <input type="text" id="veliAd" required placeholder="Örn: Mehmet Yılmaz">
+    </div>
+
+    <div class="form-group">
+      <label for="veliTc">Veli T.C. Kimlik No</label>
+      <input type="text" id="veliTc" maxlength="11" placeholder="11 Haneli T.C. No">
+    </div>
+
+    <div class="form-group">
+      <label for="veliTel">Veli Telefon (WhatsApp) *</label>
+      <input type="tel" id="veliTel" required placeholder="05XX XXX XX XX">
+    </div>
+
+    <div class="form-group">
+      <label for="veliAdres">Ev / İş Adresi</label>
+      <textarea id="veliAdres" rows="3" placeholder="Açık adresiniz"></textarea>
+    </div>
+
+    <button type="submit">Başvuruyu Gönder</button>
+  </form>
 </div>
 
-<!-- FIREBASE CANLI VERİTABANI KÜTÜPHANELERİ -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
-<script>
-  // Firebase Yapılandırması (Ana programınızla tam uyumlu hale getirildi)
-  const firebaseConfig = {
-    apiKey: "AIzaSyAhV9Qy4ltYmkfMnVWqv_73zYMqTqlbgCg",
-    authDomain: "tac-dil-kursu.firebaseapp.com",
-    projectId: "tac-dil-kursu",
-    storageBucket: "tac-dil-kursu.firebasestorage.app",
-    messagingSenderId: "19768963872",
-    appId: "1:19768963872:web:a869617de86d1603ef5d45",
-    measurementId: "G-H34RLJSKCJ"
-  };
-
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-  }
-  const db = firebase.firestore();
-
-  async function formuGonder(event) {
-    if (event) event.preventDefault();
-
-    // Form Elemanlarından Değerleri Alma
-    const oAd = document.getElementById('ogrenciAd') ? document.getElementById('ogrenciAd').value.trim() : '';
-    const oTc = document.getElementById('ogrenciTc') ? document.getElementById('ogrenciTc').value.trim() : '';
-    const oDogum = document.getElementById('ogrenciDogum') ? document.getElementById('ogrenciDogum').value : '';
-    const oTel = document.getElementById('ogrenciTel') ? document.getElementById('ogrenciTel').value.trim() : '';
-    
-    const sinifEl = document.getElementById('sinif') || document.getElementById('sinifSelect');
-    const sinif = sinifEl ? sinifEl.value : '';
-    
-    const vAd = document.getElementById('veliAd') ? document.getElementById('veliAd').value.trim() : '';
-    const vTc = document.getElementById('veliTc') ? document.getElementById('veliTc').value.trim() : '';
-    const vTel = document.getElementById('veliTel') ? document.getElementById('veliTel').value.trim() : '';
-    
-    const adresEl = document.getElementById('evAdresi') || document.getElementById('veliAdres');
-    const vAdres = adresEl ? adresEl.value.trim() : '';
-
-    if (!oAd || !oTc || !vAd || !vTel || !sinif || !vAdres) {
-      alert("Lütfen tüm zorunlu (*) alanları ve adres bilgisini doldurunuz!");
-      return;
-    }
-
-    const yeniBasvuru = {
-      oAd, oTc, oDogum, oTel, sinif, vAd, vTc, vTel, vAdres,
-      durum: "ONAY_BEKLIYOR",
-      kayitTarihi: new Date().toISOString()
-    };
-
-    try {
-      await db.collection("ogrenciler").add(yeniBasvuru);
-      alert("Kayıt başvurunuz başarıyla alındı! Kurum onayından sonra kaydınız tamamlanacaktır.");
-      
-      const form = document.querySelector('form');
-      if (form) form.reset();
-    } catch (error) {
-      alert("Hata oluştu: " + error.message);
-    }
-  }
-<!-- FIREBASE CANLI VERİTABANI KÜTÜPHANELERİ -->
+<!-- FIREBASE VERİTABANI KÜTÜPHANELERİ -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 <script>
-  // Firebase Yapılandırması (Projenize Özel Bağlantı Bilgileri)
+  // Firebase Yapılandırması
   const firebaseConfig = {
-    apiKey: "AIzaSyAhV9Qy4ltYmkfMnVWqv_73...",
+    apiKey: "AIzaSyAhV9Qy4ltYmkfMnVWqv_73...", // BURAYA TAM API KEY GELECEK
     authDomain: "tac-dil-kursu.firebaseapp.com",
     projectId: "tac-dil-kursu",
     storageBucket: "tac-dil-kursu.firebasestorage.app",
     messagingSenderId: "19768963872",
-    appId: "1:19768963872:web:a869617de86...",
+    appId: "1:19768963872:web:a869617de86...", // BURAYA TAM APP ID GELECEK
     measurementId: "G-H34RLJSKCJ"
   };
 
@@ -197,44 +138,38 @@
 
   // Form Gönderim Fonksiyonu
   async function formuGonder(event) {
-    if (event) event.preventDefault();
+    event.preventDefault();
 
-    // Form Elemanlarından Değerleri Alma
     const oAd = document.getElementById('ogrenciAd')?.value;
     const oTc = document.getElementById('ogrenciTc')?.value;
     const oDogum = document.getElementById('ogrenciDogum')?.value;
-    const sinifEl = document.getElementById('ogrenciSinif');
-    const sinif = sinifEl ? sinifEl.value : '';
+    const sinif = document.getElementById('ogrenciSinif')?.value;
 
     const vAd = document.getElementById('veliAd')?.value;
     const vTc = document.getElementById('veliTc')?.value;
     const vTel = document.getElementById('veliTel')?.value;
-    const adresEl = document.getElementById('veliAdres');
-    const vAdres = adresEl ? adresEl.value : '';
+    const vAdres = document.getElementById('veliAdres')?.value;
 
-    // Zorunlu Alan Kontrolü
     if (!oAd || !oTc || !vAd || !vTel) {
       alert("Lütfen tüm zorunlu (*) alanları doldurun.");
       return;
     }
 
-    // Firestore'a Gönderilecek Veri Objesi
     const yeniBasvuru = {
-      oAd, oTc, oDogum, oTel: vTel, sinif, vAd, vTc, vTel, vAdres,
+      oAd, oTc, oDogum, sinif, vAd, vTc, oTel: vTel, vTel, vAdres,
       durum: "ONAY_BEKLİYOR",
       kayitTarihi: new Date().toISOString()
     };
 
     try {
-      // Veriyi Firestore "ogrenciler" koleksiyonuna ekleme
       await db.collection("ogrenciler").add(yeniBasvuru);
       alert("Kayıt başvurunuz başarıyla alındı!");
-
-      // Formu Sıfırlama
-      const form = document.querySelector('form');
-      if (form) form.reset();
+      document.getElementById('basvuruFormu').reset();
     } catch (error) {
       alert("Hata oluştu: " + error.message);
     }
   }
 </script>
+
+</body>
+</html>
