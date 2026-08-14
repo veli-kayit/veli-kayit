@@ -172,6 +172,69 @@
       alert("Hata oluştu: " + error.message);
     }
   }
+<!-- FIREBASE CANLI VERİTABANI KÜTÜPHANELERİ -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<script>
+  // Firebase Yapılandırması (Projenize Özel Bağlantı Bilgileri)
+  const firebaseConfig = {
+    apiKey: "AIzaSyAhV9Qy4ltYmkfMnVWqv_73...",
+    authDomain: "tac-dil-kursu.firebaseapp.com",
+    projectId: "tac-dil-kursu",
+    storageBucket: "tac-dil-kursu.firebasestorage.app",
+    messagingSenderId: "19768963872",
+    appId: "1:19768963872:web:a869617de86...",
+    measurementId: "G-H34RLJSKCJ"
+  };
+
+  // Firebase Başlatma
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+
+  const db = firebase.firestore();
+
+  // Form Gönderim Fonksiyonu
+  async function formuGonder(event) {
+    if (event) event.preventDefault();
+
+    // Form Elemanlarından Değerleri Alma
+    const oAd = document.getElementById('ogrenciAd')?.value;
+    const oTc = document.getElementById('ogrenciTc')?.value;
+    const oDogum = document.getElementById('ogrenciDogum')?.value;
+    const sinifEl = document.getElementById('ogrenciSinif');
+    const sinif = sinifEl ? sinifEl.value : '';
+
+    const vAd = document.getElementById('veliAd')?.value;
+    const vTc = document.getElementById('veliTc')?.value;
+    const vTel = document.getElementById('veliTel')?.value;
+    const adresEl = document.getElementById('veliAdres');
+    const vAdres = adresEl ? adresEl.value : '';
+
+    // Zorunlu Alan Kontrolü
+    if (!oAd || !oTc || !vAd || !vTel) {
+      alert("Lütfen tüm zorunlu (*) alanları doldurun.");
+      return;
+    }
+
+    // Firestore'a Gönderilecek Veri Objesi
+    const yeniBasvuru = {
+      oAd, oTc, oDogum, oTel: vTel, sinif, vAd, vTc, vTel, vAdres,
+      durum: "ONAY_BEKLİYOR",
+      kayitTarihi: new Date().toISOString()
+    };
+
+    try {
+      // Veriyi Firestore "ogrenciler" koleksiyonuna ekleme
+      await db.collection("ogrenciler").add(yeniBasvuru);
+      alert("Kayıt başvurunuz başarıyla alındı!");
+
+      // Formu Sıfırlama
+      const form = document.querySelector('form');
+      if (form) form.reset();
+    } catch (error) {
+      alert("Hata oluştu: " + error.message);
+    }
+  }
 </script>
-</body>
-</html>
